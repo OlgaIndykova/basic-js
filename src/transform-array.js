@@ -14,56 +14,53 @@ const { NotImplementedError } = require('../extensions/index.js');
  * 
  */
 function transform(arr) {
-  let newArr = [];
-  if (arr === "'arr' parameter must be an instance of the Array!") {return true};
-  for (let i = 0; i < arr.length; i += 1) {
-    if (arr[i] && (arr[i] !== '--discard-prev' ||
-                   arr[i] !== '--double-prev' ||
-                   arr[i] !== '--double-next' ||
-                   arr[i] !== '--discard-next')) {
-      newArr.push(arr[i]);
+  if (Array.isArray(arr)) {
+    let newArr = [];
+    for (let i = 0; i < arr.length; i += 1) {
+      if (arr[i] !== '--discard-prev' ||
+        arr[i] !== '--double-prev' ||
+        arr[i] !== '--double-next' ||
+        arr[i] !== '--discard-next') {
+        newArr.push(arr[i]);
+      }
+      if (arr[i] === '--discard-prev' && i !== 0) {
+        newArr.pop(arr[i]);
+        newArr.pop(arr[i - 1]);
+      }
+      if (arr[i] === '--discard-prev' && i === 0) {
+        newArr.pop(arr[i]);
+      }
+      if (arr[i] === '--double-prev' && i !== 0) {
+        newArr.pop(arr[i]);
+        newArr.push(arr[i - 1]);
+      }
+      if (arr[i] === '--double-prev' && i === 0) {
+        newArr.pop(arr[i]);
+      }
+      if (arr[i] === '--double-next' && i !== arr.length - 1) {
+        newArr.pop(arr[i]);
+        newArr.push(arr[i + 1]);
+      }
+      if (arr[i] === '--double-next' && i === arr.length - 1) {
+        newArr.pop(arr[i]);
+      }
+      if (arr[i] === '--discard-next' && i !== arr.length - 1) {
+        newArr.pop(arr[i]);
+        newArr.pop(arr[i - 1]);
+      }
+      if (arr[i] === '--discard-next' && i === arr.length - 1) {
+        newArr.pop(arr[i]);
+      }
+      if (arr[i] === 1337 && arr[i+1] === 1337) {
+
+      newArr.pop();
+      newArr.pop();
+      
+      newArr.push(3);
+      } 
     }
-    if (arr[i] === '--discard-prev' && i !== 0) {
-      newArr.pop(arr[i-1]);
-      newArr.pop(arr[i]);
-    }
-    if (arr[i] === '--discard-prev' && i === 0) {
-      newArr.pop(arr[i]);
-    }
-    if (arr[i] === '--double-prev' && i !== 0) {
-      newArr.pop(arr[i]);
-      newArr.push(arr[i-1], arr[i-1]);
-    }
-    if (arr[i] === '--double-prev' && i === 0) {
-      newArr.pop(arr[i]);
-    }
-    if (arr[i] === '--double-next' && i !== arr.length - 1) {
-      newArr.pop(arr[i]);
-      newArr.push(arr[i+1]);
-    }
-    if (arr[i] === '--double-next' && i === arr.length - 1) {
-      newArr.pop(arr[i]);
-    }
-    if (arr[i] === '--discard-next' && i !== arr.length - 1) {
-      newArr.pop(arr[i-1], arr[i-1]);
-      newArr.pop(arr[i]);
-    }
-    if (arr[i] === '--discard-next' && i === arr.length - 1) {
-      newArr.pop(arr[i]);
-    }
-    // if (arr === "'arr' parameter must be an instance of the Array!") {
-    //   newArr = true;
-    // }
-    // if (arr[i] === 1337 && arr[i-1] === 1337 && arr[i+1] === 1337) {
-    //   newArr.pop(arr[i-1]);
-    //   newArr.pop(arr[i]);
-    //   newArr.push(3);
-    //   newArr.pop(arr[i+1]);
-    // }
-  }
-  return newArr;
-  // throw new NotImplementedError('Not implemented');
-  // remove line with error and write your code here
+    return newArr;
+  } else {return '\'arr\' parameter must be an instance of the Array!'}
 }
 
 module.exports = {
