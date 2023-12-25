@@ -15,27 +15,95 @@ const { NotImplementedError } = require('../extensions/index.js');
  * => 'STRINGPLUS00PLUS00PLUS**STRINGPLUS00PLUS00PLUS**STRINGPLUS00PLUS00PLUS'
  *
  */
-function repeater(/* str, options */) {
-  // let arr = [];
-  // let newStr;
-  // if ('repeatTimes' in options) {
-  //   // newStr = arr.fill(str, 0, 3).join('+')
-  //   arr.length = options[repeatTimes];
-  //   arr = arr.fill(str, 0);
-  //   newStr = arr.join('+');
-  // };
-  // if (options.repeatTimes == true && options.separator == true) {
-  //   // arr.lenth = options.repeatTimes;
-  //   for (i = 0; i < options.repeatTimes; i += 1) {
-  //     arr.push(str);
-  //   }
-  //   newStr = arr.join(options.separator)};
-  // }
-  // // if (options.repeatTimes && options.separator) {return str.repeat(options.repeatTimes).join(options.separator)};
-  // // const newStr = (str + options.addition.repeat(options.additionRepeatTimes).join(options.additionSeparator)) + .repeat(options.repeatTimes).join(options.separator);
-  // // return newStr;
-  throw new NotImplementedError('Not implemented');
-  // remove line with error and write your code here
+function repeater(str, options) {
+  const repeat = options.repeatTimes;
+  const separ = options.separator;
+  const add = options.addition;
+  const addRepeat = options.additionaRepeatTimes;
+  const addSepar = options.additionSeparator;
+  let arr = [];
+  let newArr = [];
+  let newStr;
+  let i;
+  if (!repeat && !addRepeat) {
+    arr.push(str, add);
+    newStr = arr.join('');
+    return newStr;
+  }
+
+  if (!repeat) {
+    for(i = 0; i < addRepeat; i += 1){
+      arr.push(add, addSepar);
+    }
+    arr.splice(arr.length - 1, 1);
+    newStr = arr.join('');
+    return newStr;
+  }
+
+  if (!separ && !add && !addRepeat && !addSepar) {
+    for(i = 0; i < repeat; i += 1) {
+      arr.push(str); 
+    };
+    newStr = arr.join('+');
+    return newStr;
+  }
+
+  if (!add && !addRepeat && !addSepar) {
+    for(i = 0; i < repeat; i += 1) {
+      arr.push(str, separ); 
+    };
+    arr.splice(arr.length - 1, 1);
+    newStr = arr.join('');
+    return newStr;
+  };
+  
+  if (!separ && !addRepeat && !addSepar) {
+    for(let i = 0; i < repeat; i += 1) {
+      arr.push(str, add);
+      arr.join('');
+    };
+    newStr = arr.join('+');
+    return newStr;
+  };
+
+  if(!separ && !addSepar) {
+    for(i = 0; i < repeat; i += 1) {
+      for(let j = 0; j < addRepeat; j += 1) {
+        arr.push(add);
+      }
+      newStr = str + arr.join('|');
+      newArr.push(newStr);
+    }
+    newStr = newArr.join('+');
+    return newStr;
+  }
+  if(!addSepar) {
+    for(i = 0; i < repeat; i += 1) {
+      for(let j = 0; j < addRepeat; j += 1) {
+        str = str.concat(add);
+        arr.push(str);
+      }
+      // arr.splice(arr.length - 1, 1);
+      // newStr = arr.join('');
+      newArr.push(arr, separ);
+    }
+    newArr.splice(arr.length - 1, 1);
+    newStr = newArr.join('');
+    return newStr;
+  } else {
+    for(let j = 0; j < repeat; j += 1) {
+      for(i = 0; i < addRepeat; i += 1) {
+        arr.push(add, addSepar);
+      };
+      arr.splice(arr.length - 1, 1);
+      arr[0] = str;
+      newStr = arr.join('');
+      newArr.push(newStr);
+    }
+    newArr.splice(arr.length - 1, 1)
+    newStr = newArr.join('');
+    return newStr;
+  };
 }
 module.exports = {
   repeater
