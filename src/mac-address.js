@@ -16,18 +16,9 @@ const { NotImplementedError } = require('../extensions/index.js');
  */
 function isMAC48Address(n) {
   let str = n.split('-').join('');
-  let res = parseInt(str, 10);
-  if(Number(res)) return true;
+  let res = parseInt(str, 16);
+  if (res) return true;
   else return false;
-  // if (!n || typeof n !== 'string') {
-  //   return false;
-  // } else {
-  //   for (let i = 0; i < n.length; i += 1) {
-  //     if ((0 <= +n[i] < 10) && (n[i] === 'A' || n[i] === 'B' || n[i] === 'C' || n[i] === 'D' || n[i] === 'E' || n[i] === 'F' || n[i] === '-')) {
-  //       return true;
-  //     } else return false;
-  //   }
-  // }
   }
   module.exports = {
     isMAC48Address
