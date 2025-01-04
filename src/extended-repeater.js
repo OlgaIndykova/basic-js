@@ -16,94 +16,31 @@ const { NotImplementedError } = require('../extensions/index.js');
  *
  */
 function repeater(str, options) {
-  const repeat = options.repeatTimes;
-  const separ = options.separator;
-  const add = options.addition;
-  const addRepeat = options.additionaRepeatTimes;
-  const addSepar = options.additionSeparator;
+  const repeat = options.repeatTimes? options.repeatTimes : 1;
+  const separ = options.separator? options.separator : '+';
+  const add = options.addition !== undefined? options.addition : '';
+  const addRepeat = options.additionRepeatTimes;
+  const addSepar = options.additionSeparator? options.additionSeparator : '|';
+  let subStr;
+  let newStr;
   let arr = [];
   let newArr = [];
-  let newStr;
   let i;
-  if (!repeat && !addRepeat) {
-    arr.push(str, add);
-    newStr = arr.join('');
-    return newStr;
-  }
-
-  if (!repeat) {
-    for(i = 0; i < addRepeat; i += 1){
-      arr.push(add, addSepar);
+  if (addRepeat) {
+    for (i = 0; i < addRepeat; i += 1) {
+      arr.push(String(add));
     }
-    arr.splice(arr.length - 1, 1);
-    newStr = arr.join('');
-    return newStr;
+    subStr = arr.join(`${addSepar}`);
   }
-
-  if (!separ && !add && !addRepeat && !addSepar) {
-    for(i = 0; i < repeat; i += 1) {
-      arr.push(str); 
-    };
-    newStr = arr.join('+');
-    return newStr;
+  if (repeat) {
+    for (i = 0; i < repeat; i += 1) {
+      if (subStr) {
+        newArr.push(String(str) + subStr);
+      } else newArr.push(String(str) + add); 
+    }
+    newStr = newArr.join(`${separ}`);
   }
-
-  if (!add && !addRepeat && !addSepar) {
-    for(i = 0; i < repeat; i += 1) {
-      arr.push(str, separ); 
-    };
-    arr.splice(arr.length - 1, 1);
-    newStr = arr.join('');
-    return newStr;
-  };
-  
-  if (!separ && !addRepeat && !addSepar) {
-    for(let i = 0; i < repeat; i += 1) {
-      arr.push(str, add);
-      arr.join('');
-    };
-    newStr = arr.join('+');
-    return newStr;
-  };
-
-  if(!separ && !addSepar) {
-    for(i = 0; i < repeat; i += 1) {
-      for(let j = 0; j < addRepeat; j += 1) {
-        arr.push(add);
-      }
-      newStr = str + arr.join('|');
-      newArr.push(newStr);
-    }
-    newStr = newArr.join('+');
-    return newStr;
-  }
-  if(!addSepar) {
-    for(i = 0; i < repeat; i += 1) {
-      for(let j = 0; j < addRepeat; j += 1) {
-        str = str.concat(add);
-        arr.push(str);
-      }
-      // arr.splice(arr.length - 1, 1);
-      // newStr = arr.join('');
-      newArr.push(arr, separ);
-    }
-    newArr.splice(arr.length - 1, 1);
-    newStr = newArr.join('');
-    return newStr;
-  } else {
-    for(let j = 0; j < repeat; j += 1) {
-      for(i = 0; i < addRepeat; i += 1) {
-        arr.push(add, addSepar);
-      };
-      arr.splice(arr.length - 1, 1);
-      arr[0] = str;
-      newStr = arr.join('');
-      newArr.push(newStr);
-    }
-    newArr.splice(arr.length - 1, 1)
-    newStr = newArr.join('');
-    return newStr;
-  };
+  return newStr;
 }
 module.exports = {
   repeater
