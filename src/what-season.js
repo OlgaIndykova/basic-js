@@ -14,6 +14,9 @@ const { NotImplementedError } = require('../extensions/index.js');
 function getSeason(date) {
   if (!date) return 'Unable to determine the time of year!';
   if (!(date instanceof Date)) throw new Error('Invalid date!');
+  if ( Object.getOwnPropertyNames(date).length) {
+    throw Error('Invalid date!');
+  };
   const month = date.getMonth();
   if (month === 0 || month === 1 || month === 11) return 'winter';
   if (2 <= month && month <= 4) return 'spring';
